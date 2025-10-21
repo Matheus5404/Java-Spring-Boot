@@ -1,11 +1,29 @@
 package br.sp.fatec.product.entities;
-   
-public class Product {   
 
+import java.io.Serializable;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+@Entity
+@Table(name = "TBL_PRODUCT") 
+public class Product implements Serializable {   
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
-    private String description;
+    private String description; 
     private Double price;
+
+    public Product() {
+    }
+
+    public Product(Long id) { 
+        this.id = id; 
+    }  
 
     public Product(long id, String name, String description, Double price) {
         this.id = id;
@@ -38,6 +56,29 @@ public class Product {
     public void setPrice(Double price) {
         this.price = price;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 37 * hash + (int) (this.id ^ (this.id >>> 32));
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Product other = (Product) obj;
+        return this.id == other.id;
+    }
+
     
 }
   
